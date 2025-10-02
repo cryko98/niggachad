@@ -223,19 +223,17 @@
             display: none;
         }
 
-        .meme-image-placeholder {
+        /* --- FIX START: Ensure images fit in the slideshow frame --- */
+        .mySlides img.meme-image {
             width: 100%;
-            height: 400px; /* Fixed height for placeholder */
-            background-color: #4CAF50;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2em;
-            font-family: var(--font-main);
-            color: white;
-            text-shadow: 2px 2px 0 var(--dark-text);
-            object-fit: contain; /* Ensure images fit */
+            height: 400px; /* Set a consistent height for the carousel frame */
+            object-fit: contain; /* FIX: This ensures the entire image is visible, fitting within the frame. */
+            background-color: #222; /* Use container background color for padding */
+            display: block;
         }
+        /* --- FIX END --- */
+
+        /* Removed .meme-image-placeholder styles as they are now applied directly to .meme-image */
 
         /* Next & previous buttons */
         .prev, .next {
@@ -303,19 +301,14 @@
         
         /* LIVE CHART PLACEHOLDER STYLE */
         .chart-placeholder {
+            /* Megtartjuk a keret és árnyék stílusokat, de eltávolítjuk a flex box centírozást, mivel most iframe lesz benne */
             min-height: 450px;
             background-color: #222;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5em;
-            font-weight: bold;
-            font-family: var(--font-secondary);
             border: 5px solid var(--dark-text);
             border-radius: 8px;
             box-shadow: 8px 8px 0 var(--dark-text);
             margin-top: 30px;
+            padding: 5px; /* Kis padding a kereten belül */
         }
 
 
@@ -355,6 +348,11 @@
             
             h1 {
                 font-size: 4em;
+            }
+            
+            /* Mobil nézetben a chart is kisebb lehet */
+            .chart-placeholder {
+                min-height: 350px;
             }
         }
 
@@ -400,7 +398,8 @@
         <div class="header-right">
             <!-- TOKEN ADDRESS BOX with Copy Functionality -->
             <div class="token-address-box" role="button" aria-label="Copy Token Address" onclick="copyAddress()">
-                <span class="ca-text">CA: <span id="token-address">xxxxxxxxXXXXXXX</span></span>
+                <!-- FRISSÍTVE: Valósághűbb Solana token cím placeholder -->
+                <span class="ca-text">CA: <span id="token-address">xxxxxxxxxxxxxxxxxxxxxxx</span></span>
             </div>
             
             <!-- X/TWITTER LOGO BUTTON -->
@@ -422,8 +421,8 @@
             <!-- Logo replaced with nclogo.png image file - FRAME REMOVED -->
             <img src="nc.png" alt="$NIGGACHAD CryptoChad Logo" 
                  style="width: 250px; height: auto; margin: 0 auto 60px; display: block; 
-                        border: none; border-radius: 8px; /* Removed border */
-                        box-shadow: none;" /* Removed box-shadow */
+                         border: none; border-radius: 8px; /* Removed border */
+                         box-shadow: none;" /* Removed box-shadow */
             >
             <h1>NIGGACHAD</h1>
         </div>
@@ -460,7 +459,8 @@
                     <li><strong>Visit a DEX:</strong> Go to a decentralized exchange (DEX) on Solana, such as **Raydium** or **Jupiter**.</li>
                     <li><strong>Swap for $NIGGACHAD:</strong> Connect your wallet and paste the official **$NIGGACHAD Token Address** (available in the header) into the recipient field.
                         <ul>
-                            <li><strong>CA: <span style="color: blue;" id="buy-ca-display">xxxxxxxxXXXXXXX</span></strong></li>
+                            <!-- FRISSÍTVE: Valósághűbb Solana token cím placeholder -->
+                            <li><strong>CA: <span style="color: blue;" id="buy-ca-display">2p2z92r53k3H6uW4j5iXw5aC9A9C9B9C9D9E9F9G</span></strong></li>
                         </ul>
                     </li>
                     <li><strong>Set Slippage:</strong> Use a reasonable slippage (usually between 0.5% - 5%, depending on volatility).</li>
@@ -514,10 +514,19 @@
         <!-- LIVE CHART SECTION for Dexscreener Embed -->
         <section id="live-chart" class="content-section">
             <h2>Live Price Action ($NIGGACHAD Chart)</h2>
-            <p>Watch the pump! Insert the embed code for Dexscreener, DEXTools, or another chart provider here.</p>
+            <p>Watch the pump! A diagram of the ultimate alpha-male moves.</p>
             <div class="chart-placeholder">
-                <!-- INSERT THE DEXSCREENER/DEXTOOLS EMBED CODE HERE -->
-                <p>CHART PLACEHOLDER</p>
+                <!-- DEXSCREENER EMBED KÓD BEILLESZTVE -->
+                <!-- !!! FONTOS !!! Kérlek, cseréld ki a Dexscreener URL-t a megfelelő Solana/Pár címre! -->
+                <!-- Jelenleg egy példa Solana token címe van beállítva. -->
+                <iframe 
+                    src="https://dexscreener.com/solana/2p2z92r53k3H6uW4j5iXw5aC9A9C9B9C9D9E9F9G?theme=dark&charts=1&trades=1"
+                    width="100%" 
+                    height="450px" 
+                    style="border: 0; padding: 0; border-radius: 3px;" 
+                    allowfullscreen>
+                </iframe>
+                <!-- Az 'height' itt van beállítva 450px-re. A mobil nézetben a @media query felülírja. -->
             </div>
         </section>
 
@@ -546,8 +555,8 @@
                 `;
                 modal.innerHTML = `
                     <div style="background-color: white; padding: 30px; border-radius: 10px; 
-                                border: 5px solid black; box-shadow: 10px 10px 0 #DAA520;
-                                max-width: 90vw; text-align: center; font-family: var(--font-secondary);">
+                                 border: 5px solid black; box-shadow: 10px 10px 0 #DAA520;
+                                 max-width: 90vw; text-align: center; font-family: var(--font-secondary);">
                         <h3 style="font-family: var(--font-main); font-size: 2em; color: black; margin-top: 0;"></h3>
                         <p style="margin-bottom: 20px; font-weight: bold;"></p>
                         <button onclick="document.getElementById('${modalId}').style.display = 'none';"
@@ -598,12 +607,16 @@
             }
             
             // Try modern API first (may fail in some iFrames)
-            navigator.clipboard.writeText(address).then(() => {
-                showMessageModal("SUCCESS!", "CA: " + address + " copied to clipboard! GO BUY $NIGGACHAD!");
-            }).catch(err => {
-                console.warn('Clipboard API failed, using fallback.', err);
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(address).then(() => {
+                    showMessageModal("SUCCESS!", "CA: " + address + " copied to clipboard! GO BUY $NIGGACHAD!");
+                }).catch(err => {
+                    console.warn('Clipboard API failed, using fallback.', err);
+                    fallbackCopyTextToClipboard(address);
+                });
+            } else {
                 fallbackCopyTextToClipboard(address);
-            });
+            }
         }
         
         // --- SLIDESHOW / CAROUSEL FUNCTIONALITY ---
